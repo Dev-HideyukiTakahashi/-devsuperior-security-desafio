@@ -1,15 +1,22 @@
 package com.devsuperior.bds04.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
 
 import com.devsuperior.bds04.entities.City;
+import com.devsuperior.bds04.entities.Event;
 
 public class CityDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
-	private String name;
 	
+	@NotBlank(message = "Campo requerido")
+	private String name;
+
 	public CityDTO() {
 	}
 
@@ -17,7 +24,7 @@ public class CityDTO implements Serializable {
 		this.id = id;
 		this.name = name;
 	}
-	
+
 	public CityDTO(City entity) {
 		id = entity.getId();
 		name = entity.getName();
@@ -37,5 +44,16 @@ public class CityDTO implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public static City toEntity(CityDTO dto) {
+		if (dto.getId() == null) {
+			City city = new City(null, dto.getName());
+			return city;
+		} else {
+			City city = new City(dto.getId(), dto.getName());
+			return city;
+		}
+
 	}
 }
